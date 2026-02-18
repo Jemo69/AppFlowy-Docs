@@ -80,27 +80,63 @@ curl -H "Authorization: Bearer <token>" https://beta.appflowy.cloud/api/workspac
 
 ---
 
-## 4. Databases
+## 4. Notes and Pages (Folders)
 
-### 4.1 List Databases in a Workspace
+In AppFlowy, "Notes" are represented as Views/Pages within a Workspace folder structure.
+
+### 4.1 List All Notes/Pages in a Workspace
+This endpoint returns the hierarchical folder structure of the workspace.
+
+**Endpoint:** `GET https://beta.appflowy.cloud/api/workspace/{workspace_id}/folder`
+
+**Query Parameters:**
+- `depth` (optional): How deep to go into subfolders (default 1).
+
+**Example Curl:**
+```bash
+curl -H "Authorization: Bearer <token>" \
+     "https://beta.appflowy.cloud/api/workspace/{workspace_id}/folder?depth=2"
+```
+
+The response will contain a list of views with their `view_id`, `name`, and any `children` (sub-pages).
+
+---
+
+## 5. Databases
+
+### 5.1 List Databases in a Workspace
 **Endpoint:** `GET https://beta.appflowy.cloud/api/workspace/{workspace_id}/database`
 
-### 4.2 Get Database Fields
+### 5.2 Get Database Fields
 To know what data can be stored in a database, you need to retrieve its fields.
 
 **Endpoint:** `GET https://beta.appflowy.cloud/api/workspace/{workspace_id}/database/{database_id}/fields`
 
 ---
 
-## 5. Data Operations (Rows)
+## 6. Data Operations (Rows)
 
-### 5.1 List Database Row IDs
+### 6.1 List Database Row IDs
+Retrieves all row identifiers for a database.
+
 **Endpoint:** `GET https://beta.appflowy.cloud/api/workspace/{workspace_id}/database/{database_id}/row`
 
-### 5.2 Get Row Details
-**Endpoint:** `GET https://beta.appflowy.cloud/api/workspace/{workspace_id}/database/{database_id}/row/detail?ids={row_id1},{row_id2}`
+### 6.2 Fetch All Data (Row Details)
+To get the actual content (cells) of the rows, you use the details endpoint. You can pass multiple IDs.
 
-### 5.3 Create a New Row
+**Endpoint:** `GET https://beta.appflowy.cloud/api/workspace/{workspace_id}/database/{database_id}/row/detail`
+
+**Query Parameters:**
+- `ids`: Comma-separated list of row UUIDs.
+- `with_doc` (optional): Set to `true` to include the markdown document content.
+
+**Example Curl:**
+```bash
+curl -H "Authorization: Bearer <token>" \
+     "https://beta.appflowy.cloud/api/workspace/{workspace_id}/database/{database_id}/row/detail?ids=uuid1,uuid2&with_doc=true"
+```
+
+### 6.3 Create a New Row
 **Endpoint:** `POST https://beta.appflowy.cloud/api/workspace/{workspace_id}/database/{database_id}/row`
 
 **Body:**
@@ -114,7 +150,7 @@ To know what data can be stored in a database, you need to retrieve its fields.
 }
 ```
 
-### 5.4 Upsert a Row
+### 6.4 Upsert a Row
 Update an existing row or create it if it doesn't exist.
 
 **Endpoint:** `PUT https://beta.appflowy.cloud/api/workspace/{workspace_id}/database/{database_id}/row`
@@ -139,6 +175,7 @@ Update an existing row or create it if it doesn't exist.
 | Login | POST | `/gotrue/token?grant_type=password` |
 | Refresh Token | POST | `/gotrue/token?grant_type=refresh_token` |
 | List Workspaces | GET | `/api/workspace` |
+| List Notes/Pages | GET | `/api/workspace/{workspace_id}/folder` |
 | List Databases | GET | `/api/workspace/{workspace_id}/database` |
-| Create Row | POST | `/api/workspace/{workspace_id}/database/{database_id}/row` |
 | Get Row Details | GET | `/api/workspace/{workspace_id}/database/{database_id}/row/detail` |
+| Create Row | POST | `/api/workspace/{workspace_id}/database/{database_id}/row` |
