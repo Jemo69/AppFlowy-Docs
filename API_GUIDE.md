@@ -179,3 +179,17 @@ Update an existing row or create it if it doesn't exist.
 | List Databases | GET | `/api/workspace/{workspace_id}/database` |
 | Get Row Details | GET | `/api/workspace/{workspace_id}/database/{database_id}/row/detail` |
 | Create Row | POST | `/api/workspace/{workspace_id}/database/{database_id}/row` |
+
+---
+
+## 7. Current Limitations
+
+Please note that the AppFlowy Cloud REST API is currently primarily focused on data retrieval and row-level operations.
+
+### 7.1 Creating Databases and Fields
+Currently, it is **not possible** to create new databases or add/modify fields within a database via the REST API. These structural changes are managed by the AppFlowy Native Application using its internal collaborative synchronization protocol.
+
+To create a new database or add fields, you should use the AppFlowy desktop or mobile application. Once created, you can use the REST API to interact with the data (rows) within those databases.
+
+### 7.2 Creating Workspaces
+Similarly, creating new workspaces must be done through the AppFlowy application.
