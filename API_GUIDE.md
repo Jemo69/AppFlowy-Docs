@@ -80,11 +80,18 @@ curl -H "Authorization: Bearer <token>" https://beta.appflowy.cloud/api/workspac
 
 ---
 
-## 4. Notes and Pages (Folders)
+## 4. Notes, Pages, and Spaces (Folders)
 
-In AppFlowy, "Notes" are represented as Views/Pages within a Workspace folder structure.
+In AppFlowy, the hierarchy is organized into **Workspaces**, which contain **Spaces**, which in turn contain **Pages** (or Notes) and **Databases**.
 
-### 4.1 List All Notes/Pages in a Workspace
+### 4.1 Identifying Spaces
+Spaces are top-level organizational units within a workspace. You can identify them by fetching the workspace folder structure and looking for the `is_space` property.
+
+**Endpoint:** `GET https://beta.appflowy.cloud/api/workspace/{workspace_id}/folder`
+
+In the response, objects where `"is_space": true` are Spaces. They can contain children which are pages, databases, or sub-folders.
+
+### 4.2 List All Notes/Pages in a Workspace
 This endpoint returns the hierarchical folder structure of the workspace.
 
 **Endpoint:** `GET https://beta.appflowy.cloud/api/workspace/{workspace_id}/folder`
@@ -186,10 +193,15 @@ Update an existing row or create it if it doesn't exist.
 
 Please note that the AppFlowy Cloud REST API is currently primarily focused on data retrieval and row-level operations.
 
-### 7.1 Creating Databases and Fields
-Currently, it is **not possible** to create new databases or add/modify fields within a database via the REST API. These structural changes are managed by the AppFlowy Native Application using its internal collaborative synchronization protocol.
+### 7.1 Creating Databases, Fields, and Views
+Currently, it is **not possible** to perform structural creations via the REST API. This includes:
+- Creating a new **Database**.
+- Adding or modifying **Fields** within a database.
+- Creating new **Spaces** or **Pages**.
 
-To create a new database or add fields, you should use the AppFlowy desktop or mobile application. Once created, you can use the REST API to interact with the data (rows) within those databases.
+These structural changes are managed by the AppFlowy Native Application using its internal collaborative synchronization protocol (based on Yjs).
+
+To create a new database in a specific space or add fields, you should use the AppFlowy desktop or mobile application. Once these structures are created, you can use the REST API to interact with the data (rows) within them.
 
 ### 7.2 Creating Workspaces
 Similarly, creating new workspaces must be done through the AppFlowy application.
