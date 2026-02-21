@@ -2,6 +2,8 @@
 
 This guide provides information on how to authenticate, re-authenticate, and perform common data operations using the AppFlowy Cloud REST API.
 
+For a deeper dive into how data is organized, see the [Workspaces and Spaces Guide](WORKSPACES_AND_SPACES.md).
+
 ---
 
 ## 1. Authentication
